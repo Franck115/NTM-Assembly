@@ -35,7 +35,7 @@ filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
 
 # Assembly using trycycler
 
-## Step 1
+# Step 1
 Creating multiple reads subsets
 ```bash
 trycycler subsample --reads reads.fastq --out_dir read_subsets
