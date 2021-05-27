@@ -4,22 +4,22 @@ Hi,
 Franck here, 
 This is the assembly script using the trycycler assembler
 
-#first of all we filter the reads by quality using fitlong; using the codes
+# filtering the reads
 
 filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
 
-#create multiple reads subsets
+# Create multiple reads subsets
 
 trycycler subsample --reads reads.fastq --out_dir read_subsets
 
-#Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
+# Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
 mkdir assemblies
 
-#assembly using flye on 4 subset
+## Assembly using flye
 flye --pacbio-hifi read_subsets/sample_01.fastq --threads 16  --plasmids --out-dir assembly_01
 cp assembly_01/assembly.fasta assemblies/assembly_01.fasta && rm -r assembly_01
 
-#assembly using miniasm_minipolish on 4 subset
+## Assembly using miniasm_minipolish 
 minimap2 -t 8 -x ava-ont read_subsets/sample_02.fastq read_subsets/sample_02.fastq > overlaps.paf
 miniasm -f read_subsets/sample_02.fastq overlaps.paf > assembly.gfa
 minipolish -t 8 --pacbio read_subsets/sample_02.fastq assembly.gfa > assembly_02.gfa
