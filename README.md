@@ -6,13 +6,14 @@ This is the assembly script using the trycycler assembler
 
 # filtering the reads
 
-filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
+'''filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
+# Assembly
 
-# Create multiple reads subsets
+## Create multiple reads subsets
 
 trycycler subsample --reads reads.fastq --out_dir read_subsets
 
-# Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
+## Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
 mkdir assemblies
 
 ## Assembly using flye
@@ -24,7 +25,7 @@ minimap2 -t 8 -x ava-ont read_subsets/sample_02.fastq read_subsets/sample_02.fas
 miniasm -f read_subsets/sample_02.fastq overlaps.paf > assembly.gfa
 minipolish -t 8 --pacbio read_subsets/sample_02.fastq assembly.gfa > assembly_02.gfa
 
-#assembly using Hifiasm on 4 subset
+## Assembly using Hifiasm on 4 subset
 hifiasm -o ./hifiasm/assembly_03.fasta -t 32 sample_03.fastq
 gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
 
@@ -47,10 +48,10 @@ trycycler consensus --cluster_dir trycycler/cluster_001
 #to Combine all consensus sequences into a single FASTA
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 
-#run checkm to assess the quality of the assemblies
-checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
+# Quality assessment of the assemblies
+'''checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
 
-#Quality assessmenlt using metrics like N50
+# Quality assessmenlt using metrics like N50
 seqkit stats inputfile
 
 
