@@ -6,7 +6,23 @@ This is the assembly script using the trycycler assembler
 
 # installation
 ## installing with conda
+## Installing trycycler
+creating an environment for trycycler
+```bash 
+conda create -n trycycler
+```
 
+Activate it
+```bash 
+conda activate trycycler 
+```
+installing trycycler
+```bash 
+conda install trycycler
+```
+You'll need to activate your environment (via conda activate trycycler) before running Trycycler.
+
+## Installing filtlong
 ```bash 
 conda install -c bioconda filtlong 
 ```
@@ -18,7 +34,7 @@ filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
 ```
 
 
-# Assembly
+# Assembly using trycycler
 
 ## Step 1
 Creating multiple reads subsets
@@ -45,17 +61,20 @@ minipolish -t 8 --pacbio read_subsets/sample_02.fastq assembly.gfa > assembly_02
 hifiasm -o ./hifiasm/assembly_03.fasta -t 32 sample_03.fastq
 gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
 ```
-# Trycycler cluster to group similar contigs
+# Step 2 
+Trycycler cluster to group similar contigs
 run trycycler cluster to group similar contigs
 ```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
 ```
 
-#inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
+# Step 3
+inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
 #lets take cluster_001 is good
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 
-#run a multiple sequence alignment on the cluster
+# Step 4
+run a multiple sequence alignment on the cluster
 trycycler msa --cluster_dir trycycler/cluster_001
 
 #run trycycler partition to partition the reads
