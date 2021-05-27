@@ -2,7 +2,7 @@
 
 Hi,
 Franck here, 
-This is the assembly script by trycycler
+This is the assembly script using the trycycler assembler
 
 #first of all we filter the reads by quality using fitlong; using the codes
 
