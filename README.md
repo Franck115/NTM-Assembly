@@ -4,8 +4,7 @@ Hi,
 Franck here, 
 This is the assembly script using the trycycler assembler
 
-# installation
-## installing with conda
+# installations with conda
 ## Installing trycycler
 creating an environment for trycycler
 ```bash 
@@ -41,11 +40,13 @@ Creating multiple reads subsets
 ```bash
 trycycler subsample --reads reads.fastq --out_dir read_subsets
 ```
-## Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
-mkdir assemblies
+
+Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
+
 
 ## Assembly using flye
 ```bash
+mkdir assemblies
 flye --pacbio-hifi read_subsets/sample_01.fastq --threads 16  --plasmids --out-dir assembly_01
 cp assembly_01/assembly.fasta assemblies/assembly_01.fasta && rm -r assembly_01
 ```
@@ -62,7 +63,6 @@ hifiasm -o ./hifiasm/assembly_03.fasta -t 32 sample_03.fastq
 gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
 ```
 # Step 2 
-Trycycler cluster to group similar contigs
 run trycycler cluster to group similar contigs
 ```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
@@ -70,21 +70,31 @@ trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir 
 
 # Step 3
 inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
-#lets take cluster_001 is good
+lets take cluster_001 
+```bash
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
-
+```
 # Step 4
 run a multiple sequence alignment on the cluster
+```bash
 trycycler msa --cluster_dir trycycler/cluster_001
+```
 
-#run trycycler partition to partition the reads
+# Step 5
+run trycycler partition to partition the reads
+```bash
 trycycler partition --reads reads.fastq --cluster_dir trycycler/cluster_*
-
-#run Trycycler consensus to make a consensus sequence for each contig cluster
+```
+# Step 6
+run Trycycler consensus to make a consensus sequence for each contig cluster
+```bash
 trycycler consensus --cluster_dir trycycler/cluster_001
-
-#to Combine all consensus sequences into a single FASTA
+```
+# Step 7
+Combine all consensus sequences into a single FASTA
+```bash
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
+```
 
 # Quality assessment of the assemblies
 ```bash
