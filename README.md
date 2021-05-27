@@ -6,7 +6,9 @@ This is the assembly script using the trycycler assembler
 
 # filtering the reads
 
+```bash
 filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
+
 # Assembly
 
 ## Create multiple reads subsets
