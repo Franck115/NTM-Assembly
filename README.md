@@ -57,7 +57,7 @@ minimap2 -t 8 -x ava-ont read_subsets/sample_02.fastq read_subsets/sample_02.fas
 miniasm -f read_subsets/sample_02.fastq overlaps.paf > assembly.gfa
 minipolish -t 8 --pacbio read_subsets/sample_02.fastq assembly.gfa > assembly_02.gfa
 ```
-## Assembly using Hifiasm on 4 subset
+## Assembly using Hifiasm 
 ```bash
 hifiasm -o ./hifiasm/assembly_03.fasta -t 32 sample_03.fastq
 gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
