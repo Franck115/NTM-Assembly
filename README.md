@@ -4,35 +4,52 @@ Hi,
 Franck here, 
 This is the assembly script using the trycycler assembler
 
-# filtering the reads
+# installation
+## installing with conda
+
+```bash 
+conda install -c bioconda filtlong 
+```
+
+# filtering 
 
 ```bash
 filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
+```
+
 
 # Assembly
 
-## Create multiple reads subsets
-
+## Step 1
+Creating multiple reads subsets
+```bash
 trycycler subsample --reads reads.fastq --out_dir read_subsets
-
+```
 ## Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
 mkdir assemblies
 
 ## Assembly using flye
+```bash
 flye --pacbio-hifi read_subsets/sample_01.fastq --threads 16  --plasmids --out-dir assembly_01
 cp assembly_01/assembly.fasta assemblies/assembly_01.fasta && rm -r assembly_01
+```
 
 ## Assembly using miniasm_minipolish 
+```bash
 minimap2 -t 8 -x ava-ont read_subsets/sample_02.fastq read_subsets/sample_02.fastq > overlaps.paf
 miniasm -f read_subsets/sample_02.fastq overlaps.paf > assembly.gfa
 minipolish -t 8 --pacbio read_subsets/sample_02.fastq assembly.gfa > assembly_02.gfa
-
+```
 ## Assembly using Hifiasm on 4 subset
+```bash
 hifiasm -o ./hifiasm/assembly_03.fasta -t 32 sample_03.fastq
 gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
-
-#run trycycler cluster to group similar contigs
+```
+# Trycycler cluster to group similar contigs
+run trycycler cluster to group similar contigs
+```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
+```
 
 #inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
 #lets take cluster_001 is good
@@ -51,8 +68,10 @@ trycycler consensus --cluster_dir trycycler/cluster_001
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 
 # Quality assessment of the assemblies
-'''checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
-
+```bash
+checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
+```
+change the 
 # Quality assessmenlt using metrics like N50
 seqkit stats inputfile
 
