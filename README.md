@@ -33,16 +33,15 @@ filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
 ```
 
 
-# Assembly using trycycler
+# Assembly 
 
 # Step 1
-Creating multiple reads subsets
+Creating multiple reads subsets usin trycycler subsample
 ```bash
 trycycler subsample --reads reads.fastq --out_dir read_subsets
 ```
 
-Assembly of the subsets using 3 diff assemblers and moving the ouput to a new folder
-
+Assembly of the subsets using 3 different assemblers and moving the ouput to a new folder called assemblies.
 
 ## Assembly using flye
 ```bash
@@ -74,14 +73,18 @@ lets take cluster_001
 ```bash
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 ```
+## Output
+contigs.phylip:a matrix of the Mash distances between all contigs in PHYLIP format 
+contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix. This can be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [Dendroscope](http://dendroscope.org/) 
 # Step 4
-run a multiple sequence alignment on the cluster
+run trycycler msa for each good cluster
 ```bash
 trycycler msa --cluster_dir trycycler/cluster_001
 ```
 
 # Step 5
 run trycycler partition to partition the reads
+the * can be used to glob all the good clusters
 ```bash
 trycycler partition --reads reads.fastq --cluster_dir trycycler/cluster_*
 ```
@@ -102,7 +105,8 @@ checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-ou
 ```
 change the 
 # Quality assessmenlt using metrics like N50
+```bash
 seqkit stats inputfile
-
+```
 
 
