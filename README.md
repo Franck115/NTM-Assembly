@@ -66,6 +66,9 @@ run trycycler cluster to group similar contigs
 ```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
 ```
+## Output
+contigs.phylip:a matrix of the Mash distances between all contigs in PHYLIP format 
+contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix. This can be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [Dendroscope](http://dendroscope.org/) 
 
 # Step 3
 inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
@@ -73,9 +76,7 @@ lets take cluster_001
 ```bash
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 ```
-## Output
-contigs.phylip:a matrix of the Mash distances between all contigs in PHYLIP format 
-contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix. This can be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [Dendroscope](http://dendroscope.org/) 
+
 # Step 4
 run trycycler msa for each good cluster
 ```bash
