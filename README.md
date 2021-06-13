@@ -1,8 +1,8 @@
 This example will guide you through the steps involved in the assembly of a genome using the trycycler tool.
 
-for this example, we will use the read "ccs-1968-01179-m64105_201212_035942.Q20.fastq.gz"
-make sure it is present in your directory and all necessary tools has been installed.
-Read the readme file to see the tools needed and their use
+For this example, we will use the read "ccs-1968-01179-m64105_201212_035942.Q20.fastq.gz".
+Make sure it is present in your directory and all necessary tools has been installed.
+Check the readme file to see the tools needed and their use
 
 activate your conda environment with 
 ```bash 
