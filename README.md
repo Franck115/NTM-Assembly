@@ -1,11 +1,18 @@
 # NTM-Assembly
 
 Hi,
-Franck here, 
-This is the assembly script using the trycycler assembler
+The assembly is performed using the [Trycycler](https://github.com/rrwick/Trycycler) pipeline. 
+Trycyler  is an ensemble tool that takes as input multiple separate long-read assemblies from different assemblers (we used the assemblers:[Flye](https://github.com/fenderglass/Flye), minaism+minipolish and Hifiasm) to generate consensus long-read assemblies for bacteria.
+The pipeline consists of 4 steps: contigs clustering (clustering contig sequences to distinguish complete contigs from incomplete contigs), contigs reconciliation (reconciling alternative contigs against each other and repairing circularization issues), multiple sequence alignment, and consensus sequence construction (constructing a consensus sequence from the MSA).
+
+The entire work and script was run on the ITM server
 
 # installations with conda
+The tools used were installed using conda. Most of the tools are already present on the ITM server.
+perfforming the work on your local machine will need you to install conda
+Conda can be installed through Miniconda. Download and installation information can be found on this [webiste](https://docs.conda.io/en/latest/miniconda.html) 
 ## Installing trycycler
+Trycycler can be installed using the codes below:
 creating an environment for trycycler
 ```bash 
 conda create -n trycycler
@@ -22,10 +29,42 @@ conda install trycycler
 You'll need to activate your environment (via conda activate trycycler) before running Trycycler.
 
 ## Installing filtlong
+[Fitlong](https://github.com/rrwick/Filtlong) will be used for the quality control by filtering the reads by quality in order to produce better subsets.
+Fitlong can be installed by conda using the code below:
+
 ```bash 
 conda install -c bioconda filtlong 
 ```
+##Installing Flye
+[Flye](https://github.com/fenderglass/Flye) is a de novo assembler tool for long reads sequencing.
+Flye will be one of the three assembler used to generate the assemblies
+Flye can be installed by conda using the code below:
+```bash 
+conda install flye
+```
+## Installing Miniasm+Minipolish
+The second assembler use will be a combinination of miniasm and minipolish.
+[Miniasm](https://github.com/lh3/miniasm) is a fast OLC assembler which produced an assembly graph in GFA format as output.
+It can be installed by conda using the code below:
 
+```bash 
+conda install -c bioconda miniasm 
+```
+[any2fasta](https://github.com/tseemann/any2fasta) is used to convert ssembly graph in GFA format produced by miniasm into fasta format.
+It can be installed by conda using the code below:
+```bash 
+conda install -c bioconda any2fasta
+```
+[Minipolish](https://github.com/rrwick/Minipolish) is used to polish the assembly generated
+```bash 
+conda install -c bioconda minipolish
+```
+##Installing Hifiasm
+[Hifiasm](https://github.com/chhylp123/hifiasm) is the last assembler we will used.
+It can be installed by conda using the code below:
+```bash 
+conda install -c bioconda hifiasm
+```
 # filtering 
 
 ```bash
