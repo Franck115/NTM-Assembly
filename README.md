@@ -119,6 +119,7 @@ trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir 
 contigs.phylip:a matrix of the Mash distances between all contigs in PHYLIP format 
 
 contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix. This can be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [Dendroscope](http://dendroscope.org/) 
+This is done inorder to inspect and decides on which clusters are good or bad. the bad clusters should be removed or renamed.
 
 # Step 3
 inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
@@ -144,6 +145,9 @@ run Trycycler consensus to make a consensus sequence for each contig cluster
 ```bash
 trycycler consensus --cluster_dir trycycler/cluster_001
 ```
+after comleteting all the steps, 
+![image](https://user-images.githubusercontent.com/84844757/121816636-0746f080-cc7d-11eb-9387-25ca5c31f9b9.png)
+
 # Step 7
 Combine all consensus sequences into a single FASTA
 ```bash
