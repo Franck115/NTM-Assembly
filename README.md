@@ -19,6 +19,16 @@ this should produce a new file called "reads.fastq" in your direcctory
 ```bash
 trycycler subsample --reads reads.fastq --out_dir read_subsets
 ```
+## output
+let's look at the output produced.
+To change the directory to that of the file, type:
+```bash
+cd read_subsets
+```
+To list the content of the file, type:
+```bash
+ls
+```
 ![image](https://user-images.githubusercontent.com/84844757/121793418-05d6e300-cbff-11eb-808b-b12f1146506a.png)
 
 ### assembly using Flye
@@ -130,5 +140,9 @@ Combine all consensus sequences into a single FASTA
 ```bash
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly1968-01179.fasta
 ```
+## Output
+the code should result in the displacement of the assembly sequence
+
+![image](https://user-images.githubusercontent.com/84844757/121819759-28184180-cc8f-11eb-9d90-9f5ad96413b4.png)
 
 
