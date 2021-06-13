@@ -81,7 +81,7 @@ filtlong --min_length 1000 --keep_percent 95 path/to/the/ccs-reads > reads.fastq
 ```
 this should produce a new file called "reads.fastq" in your direcctory
 
-# Step 1
+# Step 1 Generating assemblies
 The first step of trycycler consist of generating multiple assemblies.
 firstly, the quality control reads are subsamsample into different read set using the trycycler subsample command. this is done in order to have multiple read subsets of the genome independent of each other
 
@@ -110,8 +110,8 @@ minipolish -t 8 --pacbio read_subsets/sample_02.fastq assembly.gfa > assembly_02
 hifiasm -o ./hifiasm/assembly_03.fasta -t 32 sample_03.fastq
 gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
 ```
-# Step 2 
-run trycycler cluster to group similar contigs
+# Step 2 Clustering contigs
+
 After succesfully producing multiple assemblies,the objective of this step is to cluster the contigs of the assemblies into per-replicon groups and excludes incomplete or misassembled contigs.
 ```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
@@ -123,15 +123,15 @@ contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/12121
 This is done inorder to inspect and decides on which clusters are good or bad. the bad clusters should be removed or renamed.
 Directories for each cluster
 
-# Step 3 Reconciling the good clusters
+# Step 3 Reconciling contigs
 Trycycler reconcile aims as to make sure the contigs are sufficiently similar to each other,ensure all contig sequences are on the same strand and perform an alignment check. This step is done per good cluster.
 lets take cluster_001 
 ```bash
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 ```
 ## Output
-(2_all_seqs.fasta) will be produced in the cluster_001 directory
-# Step 4
+```2_all_seqs.fasta``` will be produced in the cluster_001 directory
+# Step 4 Multiple sequence alignment
 A multiple sequence alignment will be run on the reconcilied contig (2_all_seqs.fasta)
 The trycycler msa is run per cluster
 ```bash
@@ -140,7 +140,7 @@ trycycler msa --cluster_dir trycycler/cluster_001
 ## Output
 3_msa.fasta will be produced in the cluster_001 directory
 
-# Step 5
+# Step 5 Partitioning reads
 This steps aims as to partition the reads between clusters. it is run on the entire genome and not per cluster.
 The * can be used to glob all the good clusters
 ```bash
@@ -148,7 +148,7 @@ trycycler partition --reads reads.fastq --cluster_dir trycycler/cluster_*
 ```
 ## Output
 4_reads.fastq should be created in each of the cluster directories.
-# Step 6
+# Step 6 Generating Consensus
 This step is to generate a consensus contig sequence for each of the good clusters selected. This is done by converting the MSA into a graph form
 
 
