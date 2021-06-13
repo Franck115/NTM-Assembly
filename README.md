@@ -7,11 +7,11 @@ The pipeline consists of 4 steps: contigs clustering (clustering contig sequence
 
 The entire work and script was run on the ITM server
 
-# installations with conda
+## installations with conda
 The tools used were installed using conda. Most of the tools are already present on the ITM server.
 perfforming the work on your local machine will need you to install conda
 Conda can be installed through Miniconda. Download and installation information can be found on this [webiste](https://docs.conda.io/en/latest/miniconda.html) 
-## Installing trycycler
+### Installing trycycler
 Trycycler can be installed using the codes below:
 creating an environment for trycycler
 ```bash 
@@ -42,7 +42,7 @@ Flye can be installed by conda using the code below:
 ```bash 
 conda install flye
 ```
-## Installing Miniasm+Minipolish
+### Installing Miniasm+Minipolish
 The second assembler use will be a combinination of miniasm and minipolish.
 [Miniasm](https://github.com/lh3/miniasm) is a fast OLC assembler which produced an assembly graph in GFA format as output.
 It can be installed by conda using the code below:
@@ -59,14 +59,14 @@ conda install -c bioconda any2fasta
 ```bash 
 conda install -c bioconda minipolish
 ```
-## Installing Hifiasm
+### Installing Hifiasm
 [Hifiasm](https://github.com/chhylp123/hifiasm) is the last assembler we will used.
 It can be installed by conda using the code below:
 ```bash 
 conda install -c bioconda hifiasm
 ```
 
-# filtering 
+## filtering 
 
 ```bash
 filtlong --min_length 1000 --keep_percent 95 ccs-reads > reads.fastq
