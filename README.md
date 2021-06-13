@@ -161,6 +161,7 @@ A ```7_final_consensus.fasta``` file is created in each cluster. the file can be
 ```bash
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 ```
+All the assembly produced should be copy into a new directory
 
 # Quality assessment of the assemblies
 The quality of the assemblies are then assessed using [CheckM](https://github.com/Ecogenomics/CheckM)
