@@ -65,7 +65,11 @@ It can be installed by conda using the code below:
 ```bash 
 conda install -c bioconda hifiasm
 ```
-
+### Installing gfatools
+[gfatools](https://github.com/lh3/gfatools) will be used to manipulate and change the gfa format output produced by hifiasm into fasta format
+```bash 
+conda install -c ohmeta gfatools
+```
 # Assembly 
 After installing all required tools, we can now proceed to the assembling process 
 
@@ -150,10 +154,7 @@ cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 ```bash
 checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
 ```
-change the 
-# Quality assessmenlt using metrics like N50
-```bash
-seqkit stats inputfile
-```
+
+
 
 
