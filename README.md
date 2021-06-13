@@ -130,7 +130,7 @@ lets take cluster_001
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 ```
 ## Output
-```2_all_seqs.fasta``` will be produced in the cluster_001 directory
+```2_all_seqs.fasta``` is created in the cluster_001 directory
 # Step 4 Multiple sequence alignment
 A multiple sequence alignment will be run on the reconcilied contig (2_all_seqs.fasta)
 The trycycler msa is run per cluster
@@ -138,7 +138,7 @@ The trycycler msa is run per cluster
 trycycler msa --cluster_dir trycycler/cluster_001
 ```
 ## Output
-3_msa.fasta will be produced in the cluster_001 directory
+```3_msa.fasta``` will be created in the cluster_001 directory
 
 # Step 5 Partitioning reads
 This steps aims as to partition the reads between clusters. it is run on the entire genome and not per cluster.
@@ -147,29 +147,36 @@ The * can be used to glob all the good clusters
 trycycler partition --reads reads.fastq --cluster_dir trycycler/cluster_*
 ```
 ## Output
-4_reads.fastq should be created in each of the cluster directories.
+```4_reads.fastq``` is created in each of the cluster directories.
 # Step 6 Generating Consensus
-This step is to generate a consensus contig sequence for each of the good clusters selected. This is done by converting the MSA into a graph form
+This step consist of generating a consensus contig sequence for each of the good clusters selected. This is done by converting the MSA into a graph form
 
 
 ```bash
 trycycler consensus --cluster_dir trycycler/cluster_001
 ```
 ## Output
-A 7_final_consensus.fasta file is produced in each cluster. the file can be combine into a single FASTA file using the following code:
+A ```7_final_consensus.fasta``` file is created in each cluster. the file can be combine into a single FASTA file using the following code:
 
 ```bash
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 ```
 
 # Quality assessment of the assemblies
+The quality of the assemblies are then assessed using [CheckM](https://github.com/Ecogenomics/CheckM)
+
 ```bash
 checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
 ```
 
 # Annotation of the genome
-The genome is annotated using prokka
+The genome is annotated using [prokka](https://github.com/tseemann/prokka)
 
-the code consist of a loop which will annotate all the assemblies in the directory
+The code consist of a loop which will annotate all the genome assemblies in the directory
 
+```bash
+for b in *; do prokka "$b" --outdir ./annotation/"$b" -cpus 12 -centre X --compliant; done
+```
+## Output
+![image](https://user-images.githubusercontent.com/84844757/121821757-56038300-cc9b-11eb-84ae-5eb4903a6e71.png)
 
