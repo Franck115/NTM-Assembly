@@ -1,4 +1,4 @@
-This example will guide you through the steps involved in the assembly of a genome using the trycycler tool.
+This example will guide you through the steps involved in the assembly of a genome using the trycycler tool on the ITM server.
 
 For this example, we will use the read "ccs-1968-01179-m64105_201212_035942.Q20.fastq.gz".
 Make sure it is present in your directory and all necessary tools has been installed.
