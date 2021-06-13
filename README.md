@@ -74,7 +74,7 @@ conda install -c ohmeta gfatools
 After installing all required tools, we can now proceed to the assembling process 
 
 ## filtering 
-To filter the reads with fitlong, run the following code
+To filter the reads with fitlong, run the following code. this will results in the production of quality reads.
 
 ```bash
 filtlong --min_length 1000 --keep_percent 95 path/to/the/ccs-reads > reads.fastq
@@ -83,14 +83,14 @@ this should produce a new file called "reads.fastq" in your direcctory
 
 # Step 1
 The first step of trycycler consist of generating multiple assemblies.
-firstly, the quality control reads are subsamsample into different read set using the trycycler subsample command:
+firstly, the quality control reads are subsamsample into different read set using the trycycler subsample command. this is done in order to have multiple read subsets of the genome independent of each other
 
 ```bash
 trycycler subsample --reads reads.fastq --out_dir read_subsets
 ```
 when done, the reads subsets will be found under the directory "read_subsets"
 
-The second step consist of assembling the read subsets with the various assemblers and moving the output into    new folder named assemblies.
+The second step consist of assembling the read subsets with the various assemblers in order to produce multiple assemblies independent to each other.
 
 ## Assembly using flye
 ```bash
@@ -112,6 +112,7 @@ gfatools gfa2fa assembly_03.fasta.p_ctg.gfa >assembly_03.fasta
 ```
 # Step 2 
 run trycycler cluster to group similar contigs
+After succesfully producing multiple assemblies,the objective of this step is to cluster the contigs of the assemblies into per-replicon groups and excludes incomplete or misassembled contigs.
 ```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
 ```
@@ -120,36 +121,43 @@ contigs.phylip:a matrix of the Mash distances between all contigs in PHYLIP form
 
 contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix. This can be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) or [Dendroscope](http://dendroscope.org/) 
 This is done inorder to inspect and decides on which clusters are good or bad. the bad clusters should be removed or renamed.
+Directories for each cluster
 
-# Step 3
-inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
+# Step 3 Reconciling the good clusters
+Trycycler reconcile aims as to make sure the contigs are sufficiently similar to each other,ensure all contig sequences are on the same strand and perform an alignment check. This step is done per good cluster.
 lets take cluster_001 
 ```bash
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 ```
-
+## Output
+(2_all_seqs.fasta) will be produced in the cluster_001 directory
 # Step 4
-run trycycler msa for each good cluster
+A multiple sequence alignment will be run on the reconcilied contig (2_all_seqs.fasta)
+The trycycler msa is run per cluster
 ```bash
 trycycler msa --cluster_dir trycycler/cluster_001
 ```
+## Output
+3_msa.fasta will be produced in the cluster_001 directory
 
 # Step 5
-run trycycler partition to partition the reads
-the * can be used to glob all the good clusters
+This steps aims as to partition the reads between clusters. it is run on the entire genome and not per cluster.
+The * can be used to glob all the good clusters
 ```bash
 trycycler partition --reads reads.fastq --cluster_dir trycycler/cluster_*
 ```
+## Output
+4_reads.fastq should be created in each of the cluster directories.
 # Step 6
-run Trycycler consensus to make a consensus sequence for each contig cluster
+This step is to generate a consensus contig sequence for each of the good clusters selected. This is done by converting the MSA into a graph form
+
+
 ```bash
 trycycler consensus --cluster_dir trycycler/cluster_001
 ```
-after comleteting all the steps, 
-![image](https://user-images.githubusercontent.com/84844757/121816636-0746f080-cc7d-11eb-9387-25ca5c31f9b9.png)
+## Output
+A 7_final_consensus.fasta file is produced in each cluster. the file can be combine into a single FASTA file using the following code:
 
-# Step 7
-Combine all consensus sequences into a single FASTA
 ```bash
 cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 ```
@@ -159,6 +167,9 @@ cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
 checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
 ```
 
+# Annotation of the genome
+The genome is annotated using prokka
 
+the code consist of a loop which will annotate all the assemblies in the directory
 
 
