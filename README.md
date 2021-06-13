@@ -28,14 +28,14 @@ conda install trycycler
 ```
 You'll need to activate your environment (via conda activate trycycler) before running Trycycler.
 
-## Installing filtlong
+### Installing filtlong
 [Fitlong](https://github.com/rrwick/Filtlong) will be used for the quality control by filtering the reads by quality in order to produce better subsets.
 Fitlong can be installed by conda using the code below:
 
 ```bash 
 conda install -c bioconda filtlong 
 ```
-##Installing Flye
+### Installing Flye
 [Flye](https://github.com/fenderglass/Flye) is a de novo assembler tool for long reads sequencing.
 Flye will be one of the three assembler used to generate the assemblies
 Flye can be installed by conda using the code below:
@@ -59,12 +59,13 @@ conda install -c bioconda any2fasta
 ```bash 
 conda install -c bioconda minipolish
 ```
-##Installing Hifiasm
+## Installing Hifiasm
 [Hifiasm](https://github.com/chhylp123/hifiasm) is the last assembler we will used.
 It can be installed by conda using the code below:
 ```bash 
 conda install -c bioconda hifiasm
 ```
+
 # filtering 
 
 ```bash
