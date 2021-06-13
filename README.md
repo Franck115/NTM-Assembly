@@ -73,32 +73,47 @@ hifiasm -o ./hifiasm/assembly_12.fasta -t 32 read_subsets/sample_12.fastq
 gfatools gfa2fa assembly_12.fasta.p_ctg.gfa >assembly_12.fasta
 cp assembly_12.fasta assemblies/assembly_12.fasta
 ```
+## output
+let's look at the assemblies produced from the three assembler.
+To change the directory to that of the file, type:
+```bash
+cd assemblies
+```
+To list the content of the file, type:
+```bash
+ls
+```
+The assemblies directory should look approximately like this
+![image](https://user-images.githubusercontent.com/84844757/121817023-33637100-cc7f-11eb-8e8b-09cbb2bc18e6.png)
+
 
  # Step 2 grouping similar contigs 
-run trycycler cluster to group similar contigs together
+run trycycler cluster to group similar contigs together and to remove spurious and incomplete contigs
 ```bash
 trycycler cluster --assemblies assemblies/*.fasta --reads reads.fastq --out_dir trycycler
 ```
 ## Output
+This should result in the formation of directories for each cluster produced.
+The output should like this:
+![image](https://user-images.githubusercontent.com/84844757/121816186-75d67f00-cc7a-11eb-9dc4-6428568501fb.png)
+the contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix will be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) in order to choose which of the clusters are good or bad.
 
 
+# Step 3 Reconciling the clusters
+From the tree visualisation, i chosed just cluster_001 as a good cluster due to the facts it contains many contigs from each of the asssembly, so i will proceed with the reconciliation of cluster_001
 
-# Step 3
-inspect the cluster to decide which are good,rename or delete the bad clusters, and reconcile the good clusters
-lets take cluster_001 
 ```bash
 trycycler reconcile --reads reads.fastq --cluster_dir trycycler/cluster_001
 ```
 
 # Step 4
-run trycycler msa for each good cluster
+run trycycler msa 
 ```bash
 trycycler msa --cluster_dir trycycler/cluster_001
 ```
 
 # Step 5
 run trycycler partition to partition the reads
-the * can be used to glob all the good clusters
 ```bash
 trycycler partition --reads reads.fastq --cluster_dir trycycler/cluster_*
 ```
@@ -107,13 +122,13 @@ run Trycycler consensus to make a consensus sequence for each contig cluster
 ```bash
 trycycler consensus --cluster_dir trycycler/cluster_001
 ```
+after running all the various steps, you are expected to have the following files inside the cluster_001 directory
+## output
+![image](https://user-images.githubusercontent.com/84844757/121816636-0746f080-cc7d-11eb-9387-25ca5c31f9b9.png)
 # Step 7
 Combine all consensus sequences into a single FASTA
 ```bash
-cat trycycler/cluster_*/7_final_consensus.fasta > assembly.fasta
+cat trycycler/cluster_*/7_final_consensus.fasta > assembly1968-01179.fasta
 ```
 
-# Quality assessment of the assemblies
-```bash
-checkm lineage_wf --pplacer_threads 8 -t 8 -x fasta path-to-inputfile path-to-outputfile
-```
+
