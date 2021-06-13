@@ -2,7 +2,7 @@
 
 Hi,
 The assembly is performed using the [Trycycler](https://github.com/rrwick/Trycycler) pipeline. 
-Trycyler  is an ensemble tool that takes as input multiple separate long-read assemblies from different assemblers (we used the assemblers:[Flye](https://github.com/fenderglass/Flye), Miniasm](https://github.com/lh3/miniasm)+[Minipolish](https://github.com/rrwick/Minipolish) and [Hifiasm](https://github.com/chhylp123/hifiasm)) to generate consensus long-read assemblies for bacteria.
+Trycyler  is an ensemble tool that takes as input multiple separate long-read assemblies from different assemblers (we used the assemblers:[Flye](https://github.com/fenderglass/Flye), [Miniasm](https://github.com/lh3/miniasm)+[Minipolish](https://github.com/rrwick/Minipolish) and [Hifiasm](https://github.com/chhylp123/hifiasm)) to generate consensus long-read assemblies for bacteria.
 The pipeline consists of 4 steps: contigs clustering (clustering contig sequences to distinguish complete contigs from incomplete contigs), contigs reconciliation (reconciling alternative contigs against each other and repairing circularization issues), multiple sequence alignment, and consensus sequence construction (constructing a consensus sequence from the MSA).
 
 The entire work and script was run on the ITM server
