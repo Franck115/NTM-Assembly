@@ -107,7 +107,7 @@ This should result in the formation of directories for each cluster produced.
 The output should like this:
 ![image](https://user-images.githubusercontent.com/84844757/121816186-75d67f00-cc7a-11eb-9dc4-6428568501fb.png)
 the contigs.newick: a [FastME](https://academic.oup.com/mbe/article/32/10/2798/1212138) tree of the contigs built from the distance matrix will be visualised in a phylogenetic tree viewer such as [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) in order to choose which of the clusters are good or bad.
-
+![image](https://user-images.githubusercontent.com/84844757/121873959-3609a900-cd07-11eb-8494-d53b1c49441d.png)
 
 # Step 3 Reconciling the clusters
 From the tree visualisation, i chosed just cluster_001 as a good cluster due to the facts it contains many contigs from each of the asssembly, so i will proceed with the reconciliation of cluster_001
